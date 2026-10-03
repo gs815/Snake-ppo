@@ -2,13 +2,12 @@ import gymnasium as gym
 from gymnasium import spaces
 import numpy as np
 import pygame
-import random
 from collections import deque
 
 GRID_SIZE = 10
 CELL_SIZE = 30
 
-# --- Reward tuning (tweak these values ​​to experiment) ---
+# --- Reward tuning (tweak these values to experiment) ---
 REWARD_EAT = 5.0            # reward for eating food
 REWARD_APPROACH = 0.20      # distance reduction multiplier (manhattan)
 PENALTY_AWAY = -0.5        # penalty for walking away from food
@@ -27,7 +26,7 @@ class SnakeEnv(gym.Env):
         # Actions: 0=up, 1=down, 2=left, 3=right
         self.action_space = spaces.Discrete(4)
 
-        # Observation = 10x10 grid, values ​​in [0,1]
+        # Observation = 10x10 grid, values in [0,1]
         # 0.0 = empty, 0.5 = body, 0.75 = head, 1.0 = food
         self.observation_space = spaces.Box(
             low=0.0, high=1.0, shape=(GRID_SIZE, GRID_SIZE), dtype=np.float32
@@ -71,8 +70,8 @@ class SnakeEnv(gym.Env):
             return None
 
         while True:
-            pos = (random.randint(0, GRID_SIZE - 1),
-                   random.randint(0, GRID_SIZE - 1))
+            pos = (int(self.np_random.integers(0, GRID_SIZE)),
+                   int(self.np_random.integers(0, GRID_SIZE)))
             if pos not in self.snake:
                 return pos
 
@@ -171,7 +170,7 @@ class SnakeEnv(gym.Env):
         if dist_delta > 0:
             reward += dist_delta * REWARD_APPROACH
         elif dist_delta < 0:
-            reward += dist_delta * (-PENALTY_AWAY)  # dist_delta is negative; applies small penalty
+            reward += dist_delta * abs(PENALTY_AWAY)  # dist_delta is negative, so this subtracts
 
         # Passive step penalty to discourage infinite loops or unnecessary turns
         reward += STEP_PENALTY

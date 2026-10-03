@@ -15,7 +15,7 @@ while True:
             env.close()
             exit()
 
-    action, _ = model.predict(obs)
+    action, _ = model.predict(obs, deterministic=True)
     obs, reward, terminated, truncated, _ = env.step(action)
 
     env.render()

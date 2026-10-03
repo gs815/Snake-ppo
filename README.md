@@ -68,12 +68,6 @@ py -3.11 train_snake.py
 py -3.11 play_snake.py
 ```
 
-### 3️⃣ Numerical evaluation (optional)
-
-``` bash
-py -3.11 eval_snake.py
-```
-
 ------------------------------------------------------------------------
 
 ## 🧠 Reward Shaping

@@ -58,7 +58,7 @@ else:
 # -----------------------------
 try:
     print(f"Start training for {total_steps:,} timesteps...")
-    model.learn(total_timesteps=total_steps)
+    model.learn(total_timesteps=total_steps, reset_num_timesteps=not model_file_exists)
 except KeyboardInterrupt:
     print("\nTraining interrupted by user (KeyboardInterrupt). Saving current model...")
     model.save(MODEL_PATH)
@@ -70,4 +70,5 @@ except KeyboardInterrupt:
 # -----------------------------
 model.save(MODEL_PATH)
 
-print(f"Model saved as '{MODEL_PATH}' after {total_steps:,} timesteps!")
+print(f"Model saved as '{MODEL_PATH}' ({total_steps:,} timesteps this run, "
+      f"{model.num_timesteps:,} total).")
